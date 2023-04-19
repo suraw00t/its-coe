@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  influxdb:
+    image: influxdb
+    env_file:
+      - influxv2.env
+    volumes:
+      # Mount for influxdb data directory and configuration
+      - ./influxdb:/var/lib/influxdb2:rw
+    ports:
+      - "8086:8086"
+    networks:
+      - default
+  telegraf:
+    image: telegraf
+    depends_on:
+      - influxdb
+    volumes:
+      # Mount for telegraf config
+      - ./telegraf/mytelegraf.conf:/etc/telegraf/telegraf.conf:ro
+    env_file:
+      - influxv2.env
+    networks:
+      - default
+
+networks:
+  default:
