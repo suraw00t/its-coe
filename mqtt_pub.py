@@ -2,7 +2,7 @@ import time
 import paho.mqtt.client as mqtt
 
 # broker = "test.mosquitto.org"
-broker = "broker.hivemq.com"
+broker = "localhost"
 port = 1883
 topic = "psu/coe/influxdb"
 client_id = "coe-mqtt-010"

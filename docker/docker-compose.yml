@@ -1,10 +1,10 @@
 version: '3'
-
 services:
   influxdb:
     image: influxdb
+    container_name: itscoe-influxdb
     env_file:
-      - influxv2.env
+      - influxdb.env
     volumes:
       # Mount for influxdb data directory and configuration
       - ./influxdb:/var/lib/influxdb2:rw
@@ -14,15 +14,27 @@ services:
       - default
   telegraf:
     image: telegraf
+    container_name: itscoe-telegraf
     depends_on:
       - influxdb
+      - mqtt-server
     volumes:
       # Mount for telegraf config
-      - ./telegraf/mytelegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
     env_file:
-      - influxv2.env
+      - influxdb.env
+    networks:
+      - default
+  mqtt-server:
+    image: eclipse-mosquitto 
+    container_name: itscoe-mqtt-server
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - "1883:1883"
     networks:
       - default
 
 networks:
   default:
+    name: itscoe-network
