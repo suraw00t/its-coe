@@ -15,7 +15,7 @@ client_id = "coe-mqtt-005"
 
 def on_message(client, userdata, message):
     payload = message.payload.decode("utf-8")
-    print(datetime.now(), "received message:", payload)
+    print("[" + str(datetime.now()) + "]", "received message:", payload)
     #data_json = json.loads(payload)
     #p = Point("measurement").tag("device_id", "s001").field("temperature", float(data_json["temperature"]))
     #write_api.write(bucket=bucket, record=p)
